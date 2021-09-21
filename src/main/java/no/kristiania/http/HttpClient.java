@@ -13,7 +13,7 @@ public class HttpClient {
         socket.getOutputStream().write(request.getBytes());
 
         int c;
-        while ((c = socket.getInputStream().read()) != -1) {
+        while ((c = socket.getInputStream().read()) != -1 && c != '\r') {
             System.out.print((char) c);
         }
     }
