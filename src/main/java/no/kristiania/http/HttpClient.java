@@ -15,14 +15,21 @@ public class HttpClient {
                 "\r\n";
         socket.getOutputStream().write(request.getBytes());
 
+
+
+        String statusLine = readLine(socket);
+
+        this.statusCode = Integer.parseInt(statusLine.split(" ")[1]);
+    }
+
+    private String readLine(Socket socket) throws IOException {
         StringBuilder result = new StringBuilder();
+
         int c;
-        while ((c = socket.getInputStream().read()) != -1) {
+        while ((c = socket.getInputStream().read()) != -1 && c != '\r') {
             result.append((char) c);
         }
-        System.out.println(result);
-        String responsMessage = result.toString();
-        this.statusCode = Integer.parseInt(responsMessage.split(" ")[1]);
+        return result.toString();
     }
 
     public static void main(String[] args) throws IOException {
