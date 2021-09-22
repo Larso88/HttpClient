@@ -30,7 +30,8 @@ class HttpClientTest {
     @Test
     void shouldReadMessageBody() throws IOException {
         HttpClient client = new HttpClient("httpbin.org", 80, "/html");
-        assertTrue(client.getMessagebody().startsWith("<!Doctype"));
+        assertTrue(client.getMessagebody().startsWith("<!DOCTYPE html>"),
+                "Messagebody should start with <!DOCTYPE html>: " + client.getMessagebody());
     }
 
 
