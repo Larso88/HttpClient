@@ -13,7 +13,7 @@ class HttpClientTest {
         assertEquals(200, client.getStatusCode());
     }
     @Test
-    void shouldGetfailedResponseCode() throws IOException {
+    void shouldGetFailedResponseCode() throws IOException {
         HttpClient client = new HttpClient("httpbin.org", 80, "/whatever");
         assertEquals(404, client.getStatusCode());
     }
@@ -22,6 +22,12 @@ class HttpClientTest {
         HttpClient client = new HttpClient("httpbin.org", 80, "/html");
         assertEquals("text/html; charset=utf-8", client.getHeader("Content-Type"));
     }
+    @Test
+    void shouldReadContentLength() throws IOException {
+        HttpClient client = new HttpClient("httpbin.org", 80, "/html");
+        assertEquals(3741, client.getContentLength());
+    }
+
 
 
 }
