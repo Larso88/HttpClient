@@ -5,17 +5,24 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 
 public class HttpClient {
-    public HttpClient(String host, int port, String target) throws IOException {
-        Socket socket = new Socket("httpbin.org", 80);
-        String request = "GET /html HTTP/1.1\r\n" +
-                "Host: httpbin.org\r\n" +
+    private final int statusCode;
+
+    public HttpClient(String host, int port, String requestTarget) throws IOException {
+        Socket socket = new Socket(host, port);
+        String request = "GET " + requestTarget + " HTTP/1.1\r\n" +
+                "connection: close\r\n" +
+                "Host: " + host + "\r\n" +
                 "\r\n";
         socket.getOutputStream().write(request.getBytes());
 
+        StringBuilder result = new StringBuilder();
         int c;
-        while ((c = socket.getInputStream().read()) != -1 && c != '\r') {
-            System.out.print((char) c);
+        while ((c = socket.getInputStream().read()) != -1) {
+            result.append((char) c);
         }
+        System.out.println(result);
+        String responsMessage = result.toString();
+        this.statusCode = Integer.parseInt(responsMessage.split(" ")[1]);
     }
 
     public static void main(String[] args) throws IOException {
@@ -23,6 +30,6 @@ public class HttpClient {
     }
 
     public int getStatusCode() {
-        return 200;
+        return statusCode;
     }
 }
