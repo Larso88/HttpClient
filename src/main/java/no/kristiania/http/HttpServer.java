@@ -17,4 +17,8 @@ public class HttpServer {
         clientSocket.getOutputStream().write(response.getBytes());
 
     }
+
+    public int getActualPort() {
+        return 0;
+    }
 }
